@@ -9,30 +9,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateIndex = void 0;
+exports.generateTypes = void 0;
 const fs = require("fs/promises");
 const path = require("path");
-const generateIndex = (projectPath) => __awaiter(void 0, void 0, void 0, function* () {
+const generateTypes = (projectPath) => __awaiter(void 0, void 0, void 0, function* () {
     const serverCode = `
-    import express, { Application } from 'express';
-    import routes from './routes'; 
-    import dotenv from 'dotenv';
-  
-    dotenv.config({ path: './.env' });
-  
-    const app: Application = express();
-  
-    app.use(express.json());
-  
-    const port = 3000;
+    export interface Example {
+      id: string,
+      firstName: string;
+      lastName: string;
+    }
     
-    // Usa le rotte definite nel file routes.ts
-    app.use('/', routes);
+    export interface ExampleCreateInput {
+      firstName: string;
+      lastName: string;
+    }
     
-    // Avvia il server Express
-    app.listen(port, () => {
-      console.log(\`Server in ascolto sulla porta localhost:\${port}\`);
-    });`;
-    yield fs.writeFile(path.join(projectPath, '/src/index.ts'), serverCode);
+    export interface ExampleUpdateInput {
+      firstName?: string;
+      lastName?: string;
+    }
+    `;
+    yield fs.writeFile(path.join(projectPath, '/src/services/types.ts'), serverCode);
 });
-exports.generateIndex = generateIndex;
+exports.generateTypes = generateTypes;

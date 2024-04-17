@@ -9,30 +9,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateIndex = void 0;
+exports.generateSchemaPrisma = void 0;
 const fs = require("fs/promises");
 const path = require("path");
-const generateIndex = (projectPath) => __awaiter(void 0, void 0, void 0, function* () {
+const child_process_1 = require("child_process");
+const generateSchemaPrisma = (projectPath) => __awaiter(void 0, void 0, void 0, function* () {
     const serverCode = `
-    import express, { Application } from 'express';
-    import routes from './routes'; 
-    import dotenv from 'dotenv';
-  
-    dotenv.config({ path: './.env' });
-  
-    const app: Application = express();
-  
-    app.use(express.json());
-  
-    const port = 3000;
-    
-    // Usa le rotte definite nel file routes.ts
-    app.use('/', routes);
-    
-    // Avvia il server Express
-    app.listen(port, () => {
-      console.log(\`Server in ascolto sulla porta localhost:\${port}\`);
-    });`;
-    yield fs.writeFile(path.join(projectPath, '/src/index.ts'), serverCode);
+        // prisma/schema.prisma
+
+        generator client {
+            provider = "prisma-client-js"
+        }
+        
+        datasource db {
+            provider = "mongodb"
+            url      = env("DATABASE_URL")
+        }
+        
+        model Example {
+            id       String  @id @default(auto()) @map("_id") @db.ObjectId
+            firstName String
+            lastName  String
+        }
+    `;
+    yield (0, child_process_1.exec)("npx prisma generate", { cwd: projectPath });
+    yield fs.writeFile(path.join(projectPath, '/prisma/schema.prisma'), serverCode);
 });
-exports.generateIndex = generateIndex;
+exports.generateSchemaPrisma = generateSchemaPrisma;

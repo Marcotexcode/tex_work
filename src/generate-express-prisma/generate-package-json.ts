@@ -17,5 +17,5 @@ export const generatePackageJSON = async (projectPath: string, projectName: stri
     "license": "ISC"
   }, null, 2), 'utf-8');
 
-  exec("npm install typescript ts-node express  prisma @prisma/client mongodb dotenv && npm i --save-dev @types/node @types/express", { cwd: projectPath }) 
+  await exec("npm install typescript ts-node express  prisma @prisma/client mongodb dotenv && npm i --save-dev @types/node @types/express", { cwd: projectPath }) 
 }

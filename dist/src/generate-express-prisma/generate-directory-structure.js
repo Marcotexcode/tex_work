@@ -13,6 +13,8 @@ exports.generateDirectoryStructure = void 0;
 const fs = require("fs/promises");
 const path = require("path");
 const generateDirectoryStructure = (projectPath) => __awaiter(void 0, void 0, void 0, function* () {
+    const prismaDir = path.join(projectPath, "prisma");
+    yield fs.mkdir(prismaDir);
     const srcDir = path.join(projectPath, "src");
     yield fs.mkdir(srcDir);
     const modelsDir = path.join(srcDir, "models");

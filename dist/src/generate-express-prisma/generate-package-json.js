@@ -26,6 +26,6 @@ const generatePackageJSON = (projectPath, projectName) => __awaiter(void 0, void
         "author": "",
         "license": "ISC"
     }, null, 2), 'utf-8');
-    (0, child_process_1.exec)("npm install typescript ts-node express  prisma @prisma/client mongodb dotenv && npm i --save-dev @types/node @types/express", { cwd: projectPath });
+    yield (0, child_process_1.exec)("npm install typescript ts-node express  prisma @prisma/client mongodb dotenv && npm i --save-dev @types/node @types/express", { cwd: projectPath });
 });
 exports.generatePackageJSON = generatePackageJSON;

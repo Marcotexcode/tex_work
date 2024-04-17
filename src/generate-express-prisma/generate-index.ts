@@ -6,9 +6,14 @@ export const generateIndex = async (projectPath: string) => {
     const serverCode = `
     import express, { Application } from 'express';
     import routes from './routes'; 
-    
+    import dotenv from 'dotenv';
+  
+    dotenv.config({ path: './.env' });
+  
     const app: Application = express();
-    
+  
+    app.use(express.json());
+  
     const port = 3000;
     
     // Usa le rotte definite nel file routes.ts
