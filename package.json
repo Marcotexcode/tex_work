@@ -1,0 +1,24 @@
+{
+  "name": "tex_work",
+  "version": "1.0.3",
+  "description": "",
+  "main": "dist/index.js",
+  "files": [
+    "dist/*"
+  ],
+  "bin": {
+    "tex_work": "./dist/index.js"
+  },
+  "scripts": {
+    "start": "npx tsc && npm link",
+    "dev": "npx ts-node index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "enquirer": "^2.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.4"
+  }
+}
