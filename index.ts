@@ -4,7 +4,6 @@ import { prompt } from "enquirer";
 import * as fs from "fs/promises"; 
 import * as path from "path";
 
-// AGGIUNGERE IL PROGETTO SU GITHUB PRIMA DI CONTINUARE
 
 import { generateExpressPrisma } from "./src/generate-express-prisma/generate";
 import { ConnectionCheckOutStartedEvent } from "mongodb";
