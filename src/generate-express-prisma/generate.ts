@@ -8,36 +8,38 @@ import { generateEnv } from "./generate-env";
 import { generateSchemaPrisma } from "./generate-schema-prisma";
 import { generateTypes } from "./generate-type";
 
-
-export const generateExpressPrisma = async (projectPath: string, projectName: string) => {
-  
+export const generateExpressPrisma = async (
+  projectPath: string,
+  projectName: string,
+  urlDb: string
+) => {
   // Generate package.json
-  await generatePackageJSON(projectPath, projectName)
+  await generatePackageJSON(projectPath, projectName);
 
   // Generate .env
-  await generateEnv(projectPath, "stringa connessione mongo")
+  await generateEnv(projectPath, urlDb);
 
   // Generate tsconfig.json
-  await generateTsConfig(projectPath)
-  
-  // Generate directory structure. 
-  await generateDirectoryStructure(projectPath)
+  await generateTsConfig(projectPath);
+
+  // Generate directory structure.
+  await generateDirectoryStructure(projectPath);
 
   // Generate prisma.schema
-  await generateSchemaPrisma(projectPath)
+  await generateSchemaPrisma(projectPath);
 
   // Generate index.js
-  await generateIndex(projectPath)
+  await generateIndex(projectPath);
 
   // Generate example route
-  await generateExampleRoute(projectPath)
+  await generateExampleRoute(projectPath);
 
   // Generate route.ts
-  await generateRoute(projectPath)
+  await generateRoute(projectPath);
 
   // Generate route.ts
-  await generateTypes(projectPath)
-  
+  await generateTypes(projectPath);
+
   // Generate services example.service.ts
-  await generateExampleService(projectPath)
-}
+  await generateExampleService(projectPath);
+};
