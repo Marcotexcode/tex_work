@@ -5,7 +5,6 @@ import * as fs from "fs/promises";
 import * as path from "path";
 
 import { generateExpressPrisma } from "./src/generate-express-prisma/generate";
-import { ConnectionCheckOutStartedEvent } from "mongodb";
 
 (async () => {
   const { projectName } = (await prompt({
