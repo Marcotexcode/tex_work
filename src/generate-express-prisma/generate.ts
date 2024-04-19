@@ -7,6 +7,9 @@ import { generateDirectoryStructure } from "./generate-directory-structure";
 import { generateEnv } from "./generate-env";
 import { generateSchemaPrisma } from "./generate-schema-prisma";
 import { generateTypes } from "./generate-type";
+import { generatorIndex } from "./generate-command-line/generator-index";
+import { generatorRoute } from "./generate-command-line/create-route";
+import { generatorService } from "./generate-command-line/create-service";
 
 export const generateExpressPrisma = async (
   projectPath: string,
@@ -42,4 +45,14 @@ export const generateExpressPrisma = async (
 
   // Generate services example.service.ts
   await generateExampleService(projectPath);
+
+  // TODO CONTROLLARE QUESTE FUNZIONI
+  // Generate services example.service.ts
+  await generatorIndex(projectPath);
+
+  // Generate services example.service.ts
+  await generatorRoute(projectPath);
+
+  // Generate services example.service.ts
+  await generatorService(projectPath);
 };

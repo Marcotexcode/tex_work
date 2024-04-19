@@ -2,7 +2,6 @@ import * as fs from "fs/promises";
 import * as path from "path";
 
 export const generateDirectoryStructure = async (projectPath: string) => {
-
   const prismaDir = path.join(projectPath, "prisma");
   await fs.mkdir(prismaDir);
 
@@ -21,6 +20,6 @@ export const generateDirectoryStructure = async (projectPath: string) => {
   const middlewaresDir = path.join(srcDir, "middlewares");
   await fs.mkdir(middlewaresDir);
 
-  const validatorDir = path.join(srcDir, "validator");
-  await fs.mkdir(validatorDir);
-}
+  const generatorDir = path.join(srcDir, "generator");
+  await fs.mkdir(generatorDir);
+};
