@@ -14,8 +14,8 @@ const fs = require("fs/promises");
 const path = require("path");
 const generateEnv = (projectPath, dbUrl) => __awaiter(void 0, void 0, void 0, function* () {
     const serverCode = `
-        DATABASE_URL="mongodb+srv://root:root@cluster0.shgypfe.mongodb.net/example?retryWrites=true&w=majority&appName=Cluster0"
+        DATABASE_URL=${dbUrl}
     `;
-    yield fs.writeFile(path.join(projectPath, '/.env'), serverCode);
+    yield fs.writeFile(path.join(projectPath, "/.env"), serverCode);
 });
 exports.generateEnv = generateEnv;

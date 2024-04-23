@@ -25,7 +25,7 @@ const generateDirectoryStructure = (projectPath) => __awaiter(void 0, void 0, vo
     yield fs.mkdir(servicesDir);
     const middlewaresDir = path.join(srcDir, "middlewares");
     yield fs.mkdir(middlewaresDir);
-    const validatorDir = path.join(srcDir, "validator");
-    yield fs.mkdir(validatorDir);
+    const generatorDir = path.join(srcDir, "generator");
+    yield fs.mkdir(generatorDir);
 });
 exports.generateDirectoryStructure = generateDirectoryStructure;

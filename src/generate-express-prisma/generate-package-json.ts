@@ -16,7 +16,8 @@ export const generatePackageJSON = async (
         main: "index.js",
         scripts: {
           start: "npx ts-node ./src/index.ts",
-          createRoute: "npx ts-node ./src/generator/index.ts",
+          createRoute: "npx ts-node ./src/generator/index.ts createRoute",
+          createModel: "npx ts-node ./src/generator/index.ts createModel",
         },
         keywords: [],
         author: "",

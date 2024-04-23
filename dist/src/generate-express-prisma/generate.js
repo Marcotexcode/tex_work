@@ -19,14 +19,19 @@ const generate_directory_structure_1 = require("./generate-directory-structure")
 const generate_env_1 = require("./generate-env");
 const generate_schema_prisma_1 = require("./generate-schema-prisma");
 const generate_type_1 = require("./generate-type");
-const generateExpressPrisma = (projectPath, projectName) => __awaiter(void 0, void 0, void 0, function* () {
+const generator_index_1 = require("./generate-command-line/generator-index");
+const create_route_1 = require("./generate-command-line/create-route");
+const create_service_1 = require("./generate-command-line/create-service");
+const create_model_1 = require("./generate-command-line/create-model");
+const create_types_1 = require("./generate-command-line/create-types");
+const generateExpressPrisma = (projectPath, projectName, urlDb) => __awaiter(void 0, void 0, void 0, function* () {
     // Generate package.json
     yield (0, generate_package_json_1.generatePackageJSON)(projectPath, projectName);
     // Generate .env
-    yield (0, generate_env_1.generateEnv)(projectPath, "stringa connessione mongo");
+    yield (0, generate_env_1.generateEnv)(projectPath, urlDb);
     // Generate tsconfig.json
     yield (0, generate_ts_config_1.generateTsConfig)(projectPath);
-    // Generate directory structure. 
+    // Generate directory structure.
     yield (0, generate_directory_structure_1.generateDirectoryStructure)(projectPath);
     // Generate prisma.schema
     yield (0, generate_schema_prisma_1.generateSchemaPrisma)(projectPath);
@@ -40,5 +45,16 @@ const generateExpressPrisma = (projectPath, projectName) => __awaiter(void 0, vo
     yield (0, generate_type_1.generateTypes)(projectPath);
     // Generate services example.service.ts
     yield (0, generate_service_1.generateExampleService)(projectPath);
+    // TODO CONTROLLARE QUESTE FUNZIONI
+    // Generate services example.service.ts
+    yield (0, generator_index_1.generatorIndex)(projectPath);
+    // Generate services example.service.ts
+    yield (0, create_route_1.generatorRoute)(projectPath);
+    // Generate services example.service.ts
+    yield (0, create_model_1.generatorModel)(projectPath);
+    // Generate services example.service.ts
+    yield (0, create_types_1.generatorTypes)(projectPath);
+    // Generate services example.service.ts
+    yield (0, create_service_1.generatorService)(projectPath);
 });
 exports.generateExpressPrisma = generateExpressPrisma;
