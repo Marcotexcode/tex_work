@@ -1,207 +1,100 @@
 import * as fs from "fs/promises";
 import * as path from "path";
 
-export const generatorRoute = async (projectPath: string) => {
+export const generatorTypes = async (projectPath: string) => {
   const serverCode = `
-        import { prompt } from "enquirer";
         import * as fs from "fs/promises";
         import * as path from "path";
-        import { commandCreateService } from "./create-service"; 
 
-        export const commandCreateRoute = async () => {
-          const { routeName } = (await prompt({
-            type: "input",
-            name: "routeName",
-            message: "Come vuoi chiamare la tua rotta?",
-            initial: "new-node-project",
-          })) as any;
+        export const commandCreateTypes = async (typeName: string) => {
+          const typeNameLower = typeName.toLowerCase();
 
-          const routeNameLower = routeName.toLowerCase();
+          const typeNameUpper =
+            typeNameLower.charAt(0).toUpperCase() + typeNameLower.slice(1);
 
-          const routeNameUpper =
-            routeNameLower.charAt(0).toUpperCase() + routeNameLower.slice(1);
+          // Leggere il schema.prisma per recuperare il modello che mi serve
 
-          const serverCode = \`
-            import { Router, Request, Response, NextFunction } from 'express';
-            import { \${routeNameLower}Service } from '../services/\${routeNameLower}.service';
-    
-            import { PrismaClient } from '@prisma/client';
-            import { \${routeNameUpper}CreateInput, \${routeNameUpper}UpdateInput } from './\${routeNameLower}.types';
-    
-            const \${routeNameLower}Route = (router: Router, db: PrismaClient) => {
-    
-                router.get('/\${routeNameLower}', async (req: Request, res: Response) => {
-                    const result = await \${routeNameLower}Service.\${routeNameLower}({
-                        db,
-                        id: req.body.id
-                    });
-    
-                    res.send(result);
-                });
-    
-                router.get('/\${routeNameLower}s', async (req: Request, res: Response) => {
-                    const result = await \${routeNameLower}Service.\${routeNameLower}s({db});
-                    res.send(result);
-                });
-    
-                router.post('/\${routeNameLower}-create', async (req: Request, res: Response) => {
-    
-                    const result = await \${routeNameLower}Service.create\${routeNameUpper}({
-                        db,
-                        data: req.body as \${routeNameUpper}CreateInput
-                    });
-                    res.send(result);
-                });
-    
-                router.post('/\${routeNameLower}-update', async (req: Request, res: Response) => {
-                    const { id, ...data } = req.body;
-    
-                    const result = await \${routeNameLower}Service.update\${routeNameUpper}({
-                        db,
-                        id: req.body.id,
-                        data: data as \${routeNameUpper}UpdateInput
-                    });
-    
-                    res.send(result);
-                    
-                                    });
-    
-                router.post('/\${routeNameLower}-delete', async (req: Request, res: Response) => {
-                    const result = await \${routeNameLower}Service.delete\${routeNameUpper}({
-                        db,
-                        id: req.body.id as string
-                    });
-                    res.send(result);
-                });
+          const schemaFilePath = path.join(__dirname, "../../prisma/schema.prisma");
+
+          // Read the current content of the Prisma schema
+          const currentSchema = await fs.readFile(schemaFilePath, "utf-8");
+
+          const regex = new RegExp(\`model \${typeNameUpper}\\\\s*{([^}]*)}\`, "s");
+
+          const match = currentSchema.match(regex);
+
+          let userFields;
+
+          if (match) {
+            userFields = match[1]
+              .split("\\n")
+              .map((line) => line.trim())
+              .filter((line) => line && !line.startsWith("//"))
+              .map((line) => {
+                const parts = line.split(/\\s+/);
+                return {
+                  name: parts[0],
+                  type: parts[1],
+                };
+              });
+          }
+
+          let serverCode = "";
+
+          if (userFields) {
+            userFields.shift();
+
+            serverCode = \`
+            export interface \${typeNameUpper} {
+              \${userFields
+                .map((field) => {
+                  if (field.type.includes("?")) {
+                    return \`\${field.name}?: \${field.type
+                      .slice(0, -1)
+                      .toLowerCase()}| null | undefined;\`;
+                  }
+                  return \`\${field.name}: \${field.type.toLowerCase()};\`;
+                })
+                .join("\\n  ")}
             }
-    
-            export default \${routeNameLower}Route;
-          \`;
-    
-          await commandCreateService(routeNameLower);
+
+            export interface \${typeNameUpper}CreateInput {
+              \${userFields
+                .map((field) => {
+                  if (field.type.includes("?")) {
+                    return \`\${field.name}?: \${field.type
+                      .slice(0, -1)
+                      .toLowerCase()}| null | undefined;\`;
+                  }
+                  return \`\${field.name}: \${field.type.toLowerCase()};\`;
+                })
+                .join("\\n  ")}
+            }
+
+            export interface \${typeNameUpper}UpdateInput {
+              \${userFields
+                .map((field) => {
+                  if (field.type.includes("?")) {
+                    return \`\${field.name}?: \${field.type
+                      .slice(0, -1)
+                      .toLowerCase()} | null | undefined;\`;
+                  }
+                  return \`\${field.name}: \${field.type.toLowerCase()};\`;
+                })
+                .join("\\n  ")}
+            }
+            \`;
+          }
 
           await fs.writeFile(
-            path.join(__dirname, \`../routes/\${routeNameLower}.route.ts\`),
+            path.join(__dirname, \`../services/\${typeNameLower}/types.ts\`),
             serverCode
           );
         };
       `;
 
   await fs.writeFile(
-    path.join(projectPath, "src/generator/create-route.ts"),
+    path.join(projectPath, "src/generator/create-types.ts"),
     serverCode
   );
 };
-
-// import { prompt } from "enquirer";
-// import * as fs from "fs/promises";
-// import * as path from "path";
-// import { commandCreateService } from "./create-service";
-
-// export const commandCreateRoute = async () => {
-//   const { routeName } = (await prompt({
-//     type: "input",
-//     name: "routeName",
-//     message: "Come vuoi chiamare la tua rotta?",
-//     initial: "new-node-project",
-//   })) as any;
-
-//   const routeNameLower = routeName.toLowerCase();
-
-//   const routeNameUpper =
-//     routeNameLower.charAt(0).toUpperCase() + routeNameLower.slice(1);
-
-//   const serverCode = `
-//         import { Router, Request, Response, NextFunction } from 'express';
-//         import { ${routeNameLower}Service } from './${routeNameLower}.service';
-
-//         import { PrismaClient } from '@prisma/client';
-//         import { ${routeNameUpper}CreateInput, ${routeNameUpper}UpdateInput } from './${routeNameLower}.types';
-
-//         const ${routeNameLower}Route = (router: Router, db: PrismaClient) => {
-
-//             router.get('/${routeNameLower}', async (req: Request, res: Response) => {
-//                 const result = await ${routeNameLower}Service.${routeNameLower}({
-//                     db,
-//                     id: req.body.id
-//                 });
-
-//                 res.send(result);
-//             });
-
-//             router.get('/${routeNameLower}s', async (req: Request, res: Response) => {
-//                 const result = await ${routeNameLower}Service.${routeNameLower}s({db});
-//                 res.send(result);
-//             });
-
-//             router.post('/${routeNameLower}-create', async (req: Request, res: Response) => {
-
-//                 const result = await ${routeNameLower}Service.create${routeNameUpper}({
-//                     db,
-//                     data: req.body as ${routeNameUpper}CreateInput
-//                 });
-//                 res.send(result);
-//             });
-
-//             router.post('/${routeNameLower}-update', async (req: Request, res: Response) => {
-//                 const { id, ...data } = req.body;
-
-//                 const result = await ${routeNameLower}Service.update${routeNameUpper}({
-//                     db,
-//                     id: req.body.id,
-//                     data: data as ${routeNameUpper}UpdateInput
-//                 });
-
-//                 res.send(result);
-//             });
-
-//             router.post('/${routeNameLower}-delete', async (req: Request, res: Response) => {
-//                 const result = await ${routeNameLower}Service.delete${routeNameUpper}({
-//                     db,
-//                     id: req.body.id as string
-//                 });
-//                 res.send(result);
-//             });
-//         }
-
-//         export default ${routeNameLower}Route;
-//     `;
-
-//   await fs.writeFile(
-//     path.join(__dirname, `/${routeNameLower}-route.ts`),
-//     serverCode
-//   );
-
-//   await commandCreateTypes(routeName);
-//   await commandCreateService(routeName);
-// };
-
-// export const commandCreateTypes = async (routeName: string) => {
-//   const routeNameLower = routeName.toLowerCase();
-
-//   const routeNameUpper =
-//     routeNameLower.charAt(0).toUpperCase() + routeNameLower.slice(1);
-
-//   const serverCode = `
-//     export interface ${routeNameUpper} {
-//       id: string,
-//       firstName: string;
-//       lastName: string;
-//     }
-
-//     export interface ${routeNameUpper}CreateInput {
-//       firstName: string;
-//       lastName: string;
-//     }
-
-//     export interface ${routeNameUpper}UpdateInput {
-//       firstName?: string;
-//       lastName?: string;
-//     }
-//     `;
-
-//   await fs.writeFile(
-//     path.join(__dirname, `${routeNameLower}.types.ts`),
-//     serverCode
-//   );
-// };

@@ -10,6 +10,8 @@ import { generateTypes } from "./generate-type";
 import { generatorIndex } from "./generate-command-line/generator-index";
 import { generatorRoute } from "./generate-command-line/create-route";
 import { generatorService } from "./generate-command-line/create-service";
+import { generatorModel } from "./generate-command-line/create-model";
+import { generatorTypes } from "./generate-command-line/create-types";
 
 export const generateExpressPrisma = async (
   projectPath: string,
@@ -52,6 +54,12 @@ export const generateExpressPrisma = async (
 
   // Generate services example.service.ts
   await generatorRoute(projectPath);
+
+  // Generate services example.service.ts
+  await generatorModel(projectPath);
+
+  // Generate services example.service.ts
+  await generatorTypes(projectPath);
 
   // Generate services example.service.ts
   await generatorService(projectPath);

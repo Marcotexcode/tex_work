@@ -14,18 +14,20 @@ const fs = require("fs/promises");
 const path = require("path");
 const child_process_1 = require("child_process");
 const generatePackageJSON = (projectPath, projectName) => __awaiter(void 0, void 0, void 0, function* () {
-    yield fs.writeFile(path.join(projectPath, 'package.json'), JSON.stringify({
-        "name": projectName,
-        "version": "1.0.0",
-        "description": "",
-        "main": "index.js",
-        "scripts": {
-            "start": "npx ts-node ./src/index.ts"
+    yield fs.writeFile(path.join(projectPath, "package.json"), JSON.stringify({
+        name: projectName,
+        version: "1.0.0",
+        description: "",
+        main: "index.js",
+        scripts: {
+            start: "npx ts-node ./src/index.ts",
+            createRoute: "npx ts-node ./src/generator/index.ts createRoute",
+            createModel: "npx ts-node ./src/generator/index.ts createModel",
         },
-        "keywords": [],
-        "author": "",
-        "license": "ISC"
-    }, null, 2), 'utf-8');
-    yield (0, child_process_1.exec)("npm install typescript ts-node express  prisma @prisma/client mongodb dotenv && npm i --save-dev @types/node @types/express", { cwd: projectPath });
+        keywords: [],
+        author: "",
+        license: "ISC",
+    }, null, 2), "utf-8");
+    yield (0, child_process_1.exec)("npm install typescript ts-node express enquirer prisma @prisma/client mongodb dotenv && npm i --save-dev @types/node @types/express", { cwd: projectPath });
 });
 exports.generatePackageJSON = generatePackageJSON;
