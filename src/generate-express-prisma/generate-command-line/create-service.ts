@@ -3,91 +3,91 @@ import * as path from 'path';
 
 export const generatorService = async (projectPath: string) => {
   const serverCode = `
-    import * as fs from "fs/promises";
-    import * as path from "path";
+import * as fs from "fs/promises";
+import * as path from "path";
 
-    export const commandCreateService = async (serviceName: string) => {
-    const serviceNameLower = serviceName.toLowerCase();
+export const commandCreateService = async (serviceName: string) => {
+const serviceNameLower = serviceName.toLowerCase();
 
-    const serviceNameUpper =
-        serviceNameLower.charAt(0).toUpperCase() + serviceNameLower.slice(1);
+const serviceNameUpper =
+    serviceNameLower.charAt(0).toUpperCase() + serviceNameLower.slice(1);
 
-    const serverCode = \`
-            import { \${serviceNameUpper}, PrismaClient } from '@prisma/client';
-            import { \${serviceNameUpper}CreateInput, \${serviceNameUpper}UpdateInput } from './types';
+const serverCode = \`
+import { \${serviceNameUpper}, PrismaClient } from '@prisma/client';
+import { \${serviceNameUpper}CreateInput, \${serviceNameUpper}UpdateInput } from './types';
 
-            export const \${serviceNameLower}Service = {
-                async \${serviceNameLower}(props: {db: PrismaClient, id:string}): Promise<\${serviceNameUpper}> {
-                const {db, id} = props
+export const \${serviceNameLower}Service = {
+    async \${serviceNameLower}(props: {db: PrismaClient, id:string}): Promise<\${serviceNameUpper}> {
+    const {db, id} = props
 
-                return await db.\${serviceNameLower}.findFirstOrThrow({
-                    where:{
-                        id
-                    }
-                })
-                },
+    return await db.\${serviceNameLower}.findFirstOrThrow({
+        where:{
+            id
+        }
+    })
+    },
 
-                async \${serviceNameLower}s(props: {db: PrismaClient}): Promise<\${serviceNameUpper}[]> {
-                    const {db} = props
+    async \${serviceNameLower}s(props: {db: PrismaClient}): Promise<\${serviceNameUpper}[]> {
+        const {db} = props
 
-                    return await db.\${serviceNameLower}.findMany({})
-                },
+        return await db.\${serviceNameLower}.findMany({})
+    },
 
-                async create\${serviceNameUpper}(props: {
-                    db: PrismaClient
-                    data: \${serviceNameUpper}CreateInput
-                }): Promise<\${serviceNameUpper}> {
+    async create\${serviceNameUpper}(props: {
+        db: PrismaClient
+        data: \${serviceNameUpper}CreateInput
+    }): Promise<\${serviceNameUpper}> {
 
-                    const {db, data} = props;
+        const {db, data} = props;
 
-                    return await db.\${serviceNameLower}.create({
-                        data
-                    });
-                },
+        return await db.\${serviceNameLower}.create({
+            data
+        });
+    },
 
-                async update\${serviceNameUpper}(props: {
-                    db: PrismaClient
-                    id: string
-                    data: \${serviceNameUpper}UpdateInput
-                }): Promise<\${serviceNameUpper}> {
+    async update\${serviceNameUpper}(props: {
+        db: PrismaClient
+        id: string
+        data: \${serviceNameUpper}UpdateInput
+    }): Promise<\${serviceNameUpper}> {
 
-                    const {db, data, id} = props;
+        const {db, data, id} = props;
 
-                    return await db.\${serviceNameLower}.update({
-                        where: {
-                            id
-                        },
-                        data
-                    });
-                },
+        return await db.\${serviceNameLower}.update({
+            where: {
+                id
+            },
+            data
+        });
+    },
 
-                async delete\${serviceNameUpper}(props: {
-                    db: PrismaClient
-                    id: string
-                }): Promise<\${serviceNameUpper}> {
-                    const {db,  id} = props;
+    async delete\${serviceNameUpper}(props: {
+        db: PrismaClient
+        id: string
+    }): Promise<\${serviceNameUpper}> {
+        const {db,  id} = props;
 
-                    return await db.\${serviceNameLower}.delete({
-                        where: {
-                            id
-                        },
-                    });
+        return await db.\${serviceNameLower}.delete({
+            where: {
+                id
+            },
+        });
 
-                }
-            };
-        \`;
+    }
+};
+    \`;
 
-    const serviceDir = path.join(__dirname, "../services/", serviceNameLower);
-    await fs.mkdir(serviceDir);
+const serviceDir = path.join(__dirname, "../services/", serviceNameLower);
+await fs.mkdir(serviceDir);
 
-    await fs.writeFile(
-        path.join(
-        __dirname,
-        \`../services/\${serviceNameLower}/\${serviceNameLower}.service.ts\`
-        ),
-        serverCode
-    );
-    };
+await fs.writeFile(
+    path.join(
+    __dirname,
+    \`../services/\${serviceNameLower}/\${serviceNameLower}.service.ts\`
+    ),
+    serverCode
+);
+};
 
       `;
 

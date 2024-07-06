@@ -13,6 +13,7 @@ import { generatorService } from './generate-command-line/create-service';
 import { generatorModel } from './generate-command-line/create-model';
 import { generatorTypes } from './generate-command-line/create-types';
 import { generatePritter } from './generators/generate-pritter';
+import { insertInRouters } from './generate-command-line/insert-in-routers';
 
 // Esporta la funzione generateExpressPrisma come una funzione asincrona che accetta tre parametri: projectPath, projectName e urlDb
 export const generateExpressPrisma = async (projectPath: string, projectName: string, urlDb: string) => {
@@ -54,6 +55,9 @@ export const generateExpressPrisma = async (projectPath: string, projectName: st
 
   // Genera il file route.ts
   await generatorRoute(projectPath);
+
+  // Genera il file route.ts
+  await insertInRouters(projectPath);
 
   // Genera il file model.ts
   await generatorModel(projectPath);

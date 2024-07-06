@@ -21,12 +21,6 @@ const generate_1 = require("./src/generate-express-prisma/generate");
         message: 'Come vuoi chiamare il tuo progetto?',
         initial: 'new-node-project',
     }));
-    // const { framework } = (await prompt({
-    //   type: "select",
-    //   name: "framework",
-    //   message: "Che framework vuoi usare?",
-    //   choices: ["express", "fastify"],
-    // })) as any;
     const { urlDb } = (yield (0, enquirer_1.prompt)({
         type: 'input',
         name: 'urlDb',

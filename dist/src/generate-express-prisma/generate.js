@@ -25,6 +25,7 @@ const create_service_1 = require("./generate-command-line/create-service");
 const create_model_1 = require("./generate-command-line/create-model");
 const create_types_1 = require("./generate-command-line/create-types");
 const generate_pritter_1 = require("./generators/generate-pritter");
+const insert_in_routers_1 = require("./generate-command-line/insert-in-routers");
 // Esporta la funzione generateExpressPrisma come una funzione asincrona che accetta tre parametri: projectPath, projectName e urlDb
 const generateExpressPrisma = (projectPath, projectName, urlDb) => __awaiter(void 0, void 0, void 0, function* () {
     // Genera il file package.json
@@ -49,11 +50,12 @@ const generateExpressPrisma = (projectPath, projectName, urlDb) => __awaiter(voi
     yield (0, generate_type_1.generateTypes)(projectPath);
     // Genera il servizio di esempio example.service.ts
     yield (0, generate_service_1.generateExampleService)(projectPath);
-    // TODO CONTROLLARE QUESTE FUNZIONI
     // Genera il file index.ts
     yield (0, generator_index_1.generatorIndex)(projectPath);
     // Genera il file route.ts
     yield (0, create_route_1.generatorRoute)(projectPath);
+    // Genera il file route.ts
+    yield (0, insert_in_routers_1.insertInRouters)(projectPath);
     // Genera il file model.ts
     yield (0, create_model_1.generatorModel)(projectPath);
     // Genera il file types.ts
