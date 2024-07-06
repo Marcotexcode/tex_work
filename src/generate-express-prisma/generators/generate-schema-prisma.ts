@@ -1,10 +1,9 @@
-import * as fs from "fs/promises"; 
-import * as path from "path";
-import { exec } from "child_process";
-
+import * as fs from 'fs/promises';
+import * as path from 'path';
+import { exec } from 'child_process';
 
 export const generateSchemaPrisma = async (projectPath: string) => {
-    const serverCode = `
+  const serverCode = `
         // prisma/schema.prisma
 
         generator client {
@@ -23,7 +22,7 @@ export const generateSchemaPrisma = async (projectPath: string) => {
         }
     `;
 
-    await exec("npx prisma generate", { cwd: projectPath }) 
+  await exec('npx prisma generate', { cwd: projectPath });
 
-    await fs.writeFile(path.join(projectPath, '/prisma/schema.prisma'), serverCode); 
-}
+  await fs.writeFile(path.join(projectPath, '/prisma/schema.prisma'), serverCode);
+};

@@ -1,5 +1,5 @@
-import * as fs from "fs/promises";
-import * as path from "path";
+import * as fs from 'fs/promises';
+import * as path from 'path';
 
 export const generatorModel = async (projectPath: string) => {
   const serverCode = `
@@ -112,8 +112,5 @@ export const generatorModel = async (projectPath: string) => {
       };
     `;
 
-  await fs.writeFile(
-    path.join(projectPath, "src/generator/create-model.ts"),
-    serverCode
-  );
+  await fs.writeFile(path.join(projectPath, 'src/generator/create-model.ts'), serverCode);
 };

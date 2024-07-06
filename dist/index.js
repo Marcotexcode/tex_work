@@ -16,26 +16,24 @@ const path = require("path");
 const generate_1 = require("./src/generate-express-prisma/generate");
 (() => __awaiter(void 0, void 0, void 0, function* () {
     const { projectName } = (yield (0, enquirer_1.prompt)({
-        type: "input",
-        name: "projectName",
-        message: "Come vuoi chiamare il tuo progetto?",
-        initial: "new-node-project",
+        type: 'input',
+        name: 'projectName',
+        message: 'Come vuoi chiamare il tuo progetto?',
+        initial: 'new-node-project',
     }));
-    const { framework } = (yield (0, enquirer_1.prompt)({
-        type: "select",
-        name: "framework",
-        message: "Che framework vuoi usare?",
-        choices: ["express", "fastify"],
-    }));
+    // const { framework } = (await prompt({
+    //   type: "select",
+    //   name: "framework",
+    //   message: "Che framework vuoi usare?",
+    //   choices: ["express", "fastify"],
+    // })) as any;
     const { urlDb } = (yield (0, enquirer_1.prompt)({
-        type: "input",
-        name: "urlDb",
-        message: "Inserisci la stringa per la connessione a mongoDb",
-        initial: "new-node-project",
+        type: 'input',
+        name: 'urlDb',
+        message: 'Inserisci la stringa per la connessione a mongoDb',
+        initial: 'new-node-project',
     }));
     const projectPath = path.resolve(projectName);
     yield fs.mkdir(projectPath, { recursive: true });
-    if (framework === "express") {
-        yield (0, generate_1.generateExpressPrisma)(projectPath, projectName, urlDb);
-    }
+    yield (0, generate_1.generateExpressPrisma)(projectPath, projectName, urlDb);
 }))();

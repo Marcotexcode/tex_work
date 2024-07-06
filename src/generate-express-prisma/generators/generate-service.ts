@@ -1,8 +1,8 @@
-import * as fs from "fs/promises"; 
-import * as path from "path";
+import * as fs from 'fs/promises';
+import * as path from 'path';
 
 export const generateExampleService = async (projectPath: string) => {
-    const serverCode = `
+  const serverCode = `
         import { Example, PrismaClient } from '@prisma/client';
         import { ExampleCreateInput, ExampleUpdateInput } from './types';
         
@@ -72,6 +72,6 @@ export const generateExampleService = async (projectPath: string) => {
             }
         };
     `;
-  
-    await fs.writeFile(path.join(projectPath, '/src/services/example.service.ts'), serverCode); 
-  }
+
+  await fs.writeFile(path.join(projectPath, '/src/services/example.service.ts'), serverCode);
+};

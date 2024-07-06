@@ -1,66 +1,66 @@
-import { generateIndex } from "./generate-index";
-import { generateExampleRoute, generateRoute } from "./generate-route";
-import { generateExampleService } from "./generate-service";
-import { generatePackageJSON } from "./generate-package-json";
-import { generateTsConfig } from "./generate-ts-config";
-import { generateDirectoryStructure } from "./generate-directory-structure";
-import { generateEnv } from "./generate-env";
-import { generateSchemaPrisma } from "./generate-schema-prisma";
-import { generateTypes } from "./generate-type";
-import { generatorIndex } from "./generate-command-line/generator-index";
-import { generatorRoute } from "./generate-command-line/create-route";
-import { generatorService } from "./generate-command-line/create-service";
-import { generatorModel } from "./generate-command-line/create-model";
-import { generatorTypes } from "./generate-command-line/create-types";
+import { generateIndex } from './generators/generate-index';
+import { generateExampleRoute, generateRoute } from './generators/generate-route';
+import { generateExampleService } from './generators/generate-service';
+import { generatePackageJSON } from './generators/generate-package-json';
+import { generateTsConfig } from './generators/generate-ts-config';
+import { generateDirectoryStructure } from './generators/generate-directory-structure';
+import { generateEnv } from './generators/generate-env';
+import { generateSchemaPrisma } from './generators/generate-schema-prisma';
+import { generateTypes } from './generators/generate-type';
+import { generatorIndex } from './generate-command-line/generator-index';
+import { generatorRoute } from './generate-command-line/create-route';
+import { generatorService } from './generate-command-line/create-service';
+import { generatorModel } from './generate-command-line/create-model';
+import { generatorTypes } from './generate-command-line/create-types';
+import { generatePritter } from './generators/generate-pritter';
 
-export const generateExpressPrisma = async (
-  projectPath: string,
-  projectName: string,
-  urlDb: string
-) => {
-  // Generate package.json
+// Esporta la funzione generateExpressPrisma come una funzione asincrona che accetta tre parametri: projectPath, projectName e urlDb
+export const generateExpressPrisma = async (projectPath: string, projectName: string, urlDb: string) => {
+  // Genera il file package.json
   await generatePackageJSON(projectPath, projectName);
 
-  // Generate .env
+  // Genera il file .env
   await generateEnv(projectPath, urlDb);
 
-  // Generate tsconfig.json
+  // Genera il file tsconfig.json
   await generateTsConfig(projectPath);
 
-  // Generate directory structure.
+  // Genera il file .prettierrc
+  await generatePritter(projectPath);
+
+  // Genera la struttura delle directory
   await generateDirectoryStructure(projectPath);
 
-  // Generate prisma.schema
+  // Genera il file prisma.schema
   await generateSchemaPrisma(projectPath);
 
-  // Generate index.js
+  // Genera il file index.js
   await generateIndex(projectPath);
 
-  // Generate example route
+  // Genera la rotta di esempio
   await generateExampleRoute(projectPath);
 
-  // Generate route.ts
+  // Genera il file route.ts
   await generateRoute(projectPath);
 
-  // Generate route.ts
+  // Genera il file types.ts
   await generateTypes(projectPath);
 
-  // Generate services example.service.ts
+  // Genera il servizio di esempio example.service.ts
   await generateExampleService(projectPath);
 
-  // TODO CONTROLLARE QUESTE FUNZIONI
-  // Generate services example.service.ts
+  // Genera il file index.ts
   await generatorIndex(projectPath);
 
-  // Generate services example.service.ts
+  // Genera il file route.ts
   await generatorRoute(projectPath);
 
-  // Generate services example.service.ts
+  // Genera il file model.ts
   await generatorModel(projectPath);
 
-  // Generate services example.service.ts
+  // Genera il file types.ts
   await generatorTypes(projectPath);
 
-  // Generate services example.service.ts
+  // Genera il file service.ts
   await generatorService(projectPath);
 };

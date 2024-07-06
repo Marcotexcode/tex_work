@@ -1,9 +1,8 @@
-import * as fs from "fs/promises"; 
-import * as path from "path";
-
+import * as fs from 'fs/promises';
+import * as path from 'path';
 
 export const generateExampleRoute = async (projectPath: string) => {
-    const serverCode = `
+  const serverCode = `
         import { Router, Request, Response, NextFunction } from 'express';
         import { exampleService } from '../services/example.service';
         import { PrismaClient } from '@prisma/client';
@@ -60,12 +59,12 @@ export const generateExampleRoute = async (projectPath: string) => {
         export default exampleRoute;
 
     `;
-    
-    await fs.writeFile(path.join(projectPath, '/src/routes/example.route.ts'), serverCode); 
-}
+
+  await fs.writeFile(path.join(projectPath, '/src/routes/example.route.ts'), serverCode);
+};
 
 export const generateRoute = async (projectPath: string) => {
-    const serverCode = `
+  const serverCode = `
        
         import { Router } from 'express';
         import exampleRoute from './routes/example.route';
@@ -80,5 +79,5 @@ export const generateRoute = async (projectPath: string) => {
     
     `;
 
-    await fs.writeFile(path.join(projectPath, '/src/routes.ts'), serverCode); 
-}
+  await fs.writeFile(path.join(projectPath, '/src/routes.ts'), serverCode);
+};

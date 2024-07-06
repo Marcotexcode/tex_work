@@ -1,8 +1,8 @@
-import * as fs from "fs/promises"; 
-import * as path from "path";
+import * as fs from 'fs/promises';
+import * as path from 'path';
 
 export const generateTypes = async (projectPath: string) => {
-    const serverCode = `
+  const serverCode = `
     export interface Example {
       id: string,
       firstName: string;
@@ -19,6 +19,6 @@ export const generateTypes = async (projectPath: string) => {
       lastName?: string;
     }
     `;
-  
-    await fs.writeFile(path.join(projectPath, '/src/services/types.ts'), serverCode); 
-  }
+
+  await fs.writeFile(path.join(projectPath, '/src/services/types.ts'), serverCode);
+};
